@@ -44,9 +44,9 @@ We have planned to deal with each threat level differently.
 - Monitor the performance of our models and retrain to improve it with more data to get more robust models.
 
 ## The team
-|Name                         |Role                         |
-|----------------|-------------------------------|-----------------------------|
-|Aishi Mukherjee| Data Analyst          
+|Name                         |Role         |                
+|----------------|-------------------------------|
+|Aishi Mukherjee| Data Analyst          |
 |Arnab Sengupta| ML and Systems Engineer          |
 |Akash Kundu| Data Scientist|
 |Pradyumna Bhowmick| Unknown|
