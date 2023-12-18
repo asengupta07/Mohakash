@@ -1182,12 +1182,13 @@ def classify(model, df, indices):
         if col in df.columns:
             df = df.drop(col, axis=1)
     li = model.predict(df)
+    print(li)
     return li
 
 def report(df):
     df = list(pd.Series(df).value_counts())
     for count in df:
-        print(f'Level {df.index(count)+1} threats: {count}')
+        print(f'Level {int(df[count])+1} threats: {count}')
 
 
 
