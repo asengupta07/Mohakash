@@ -2,7 +2,7 @@ import pipeline as pl
 import streamlit as st
 import pandas as pd
 
-st.title("Pipeline")
+st.title("Detect Log Threats")
 
 logs = st.text_area("Log", height=200, value="")
 lines = logs.split('\n')
@@ -14,8 +14,11 @@ if st.button("Run"):
     pred = pl.detect(binclf, df)
     mltclf = pl.load_classifier('raksha_ultra_xlf.pkl')
     indices = pl.get_threats(pred, lines)
-    df = pl.classify(mltclf, df, indices)
-    st.write("Detected {} threats out of {} logs.".format(len(pred), len(lines)))
-    df = list(pd.Series(df).value_counts())
-    for count in df:
-        st.write(f'Level {df.index(count)+1} threats: {count}')
+    st.write("Detected {} threats out of {} logs.".format(sum(pred), len(lines)))
+    if indices == []:
+        st.write("No threats detected.")
+    else:
+        df = pl.classify(mltclf, df, indices)
+        df = dict(pd.Series(df).value_counts())
+        for key in df.keys():
+            st.write(f'Level {key+1} threats: {df[key]}')
