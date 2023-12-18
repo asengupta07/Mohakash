@@ -39,7 +39,8 @@ We have planned to deal with each threat level differently.
 
 ## What we plan to do next
 
--  Take dynamic data from Bhuvan and implement the pipeline into production.
+- Take dynamic data from Bhuvan and implement the pipeline into production.
+- Add a real-time notification after running the dynamic firewall logs collected from Bhuvan's server logfile through the pipeline.
 - Make the dashboards dynamic with the live data to give interactive daily, weekly, and monthly insights.
 - Monitor the performance of our models and retrain to improve it with more data to get more robust models.
 
