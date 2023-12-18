@@ -2,6 +2,8 @@ import pipeline as pl
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(page_title="BhuvanRKSHA")
+
 st.title("BhuvanRKSHA")
 
 st.write("This is a demo of BhuvanRKSHA, a tool to detect threats in log files.")
