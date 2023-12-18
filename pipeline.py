@@ -1177,7 +1177,10 @@ def load_classifier(model):
 
 def classify(model, df, indices):
     df = pd.DataFrame([df.iloc[index] for index in indices])
-    df = df.drop(['dstintfrole','proto','srcintfrole','srcintf','dstintf'], axis=1)
+    cols = ['dstintfrole','proto','srcintfrole','srcintf','dstintf']
+    for col in cols:
+        if col in df.columns:
+            df = df.drop(col, axis=1)
     li = model.predict(df)
     return li
 
