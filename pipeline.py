@@ -1166,7 +1166,7 @@ def get_threats(y_pred, logs):
             if y_pred[i] == 1:
                 # print(logs[i])
                 li.append(i)
-    print("Detected {} malicious logs out of {} logs".format(sum(y_pred), len(logs)))
+    # print("Detected {} malicious logs out of {} logs".format(sum(y_pred), len(logs)))
     return li
 
 
@@ -1182,7 +1182,6 @@ def classify(model, df, indices):
         if col in df.columns:
             df = df.drop(col, axis=1)
     li = model.predict(df)
-    print(li)
     return li
 
 def report(df):
