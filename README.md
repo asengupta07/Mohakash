@@ -46,8 +46,8 @@ We have planned to deal with each threat level differently.
 ## The team
 |Name                         |Role         |                
 |----------------|-------------------------------|
-|Aishi Mukherjee| Data Analyst          |
+|Aishi Mukhopadhyay| Data Analyst          |
 |Arnab Sengupta| ML and Systems Engineer          |
 |Akash Kundu| Data Scientist|
-|Pradyumna Bhowmick| Unknown|
+|Pradyumna Bhowmick| |
 
