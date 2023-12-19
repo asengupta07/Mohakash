@@ -3,14 +3,28 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="BhuvanRKSHA", page_icon=":shield:")
+st.markdown( """
+            <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/xolonium" type="text/css">
+            <style>
+                .st-emotion-cache-10trblm {
+                    font-family: 'XoloniumRegular';
+                    font-weight: normal;
+                    font-style: normal;
+                }
+            </style>
+            """ , unsafe_allow_html= True)
 
-st.title("BhuvanRKSHA")
+st.markdown("<h1 style='text-align: center; font-size:80px;'>BhuvanRKSHA</h1>", unsafe_allow_html=True)
 
-st.write("This is a demo of BhuvanRKSHA, a tool to detect threats in log files.")
+
+st.markdown("<div style='text-align: center;'><h3>A tool to detect threats in log files.</h3></div>", unsafe_allow_html=True)
 
 st.header("Log Threat Detection")
 
-logs = st.text_area("Enter Log Data:", height=200, value="")
+logs = st.text_area("Enter Log Data:", height=200, value="", placeholder="""Paste logs here.
+Example:
+2023-10-31T06:03:06.283735+05:30 172.26.5.193 logver=506141727 timestamp=1698708792 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:03:12 logid="0000000013"...
+                    """)
 lines = logs.split("\n")
 lines[:] = [line for line in lines if line != ""]
 
