@@ -10,14 +10,15 @@ st.markdown( """
                     font-family: 'XoloniumRegular';
                     font-weight: normal;
                     font-style: normal;
+                    text-align: center;
                 }
             </style>
             """ , unsafe_allow_html= True)
 
-st.markdown("<h1 style='text-align: center; font-size:80px;'>BhuvanRKSHA</h1>", unsafe_allow_html=True)
+st.title("BhuvanRKSHA")
 
 
-st.markdown("<div style='text-align: center;'><h3>A tool to detect threats in log files.</h3></div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center;'><h5>A tool to detect threats in log files.</h5></div>", unsafe_allow_html=True)
 
 st.header("Log Threat Detection")
 
