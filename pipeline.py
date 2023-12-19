@@ -1061,19 +1061,14 @@ map = {
     ],
 }
 
-dtype_f64 = [
-    'proto',
-    'policyid',
-    'duration',
-    'sentbyte',
-    'rcvdbyte',
-    'crscore'
-]
+dtype_f64 = ["proto", "policyid", "duration", "sentbyte", "rcvdbyte", "crscore"]
+
 
 def parse_log(log):
     result = {}
 
     log_fields = [
+        "srcip",
         "type",
         "subtype",
         "level",
@@ -1124,8 +1119,8 @@ def clean_data(df):
 
 
 def read_lines(file_path, n):
-    n=n+1
-    with open(file_path, 'r') as file:
+    n = n + 1
+    with open(file_path, "r") as file:
         file.seek(0, 2)
         end_position = file.tell()
         lines = []
@@ -1134,7 +1129,7 @@ def read_lines(file_path, n):
             end_position -= 1
             file.seek(end_position)
             char = file.read(1)
-            if char == '\n':
+            if char == "\n":
                 newline_count += 1
         while newline_count > 0:
             lines.append(file.readline().rstrip())
@@ -1144,22 +1139,23 @@ def read_lines(file_path, n):
 
 
 def load_model(model_name):
-    with open(model_name, 'rb') as file:
+    with open(model_name, "rb") as file:
         model = pickle.load(file)
     return model
 
+
 def detect(model, df):
-    with open('scaler.pkl', 'rb') as file:
+    with open("scaler.pkl", "rb") as file:
         scaler = pickle.load(file)
     df = scaler.transform(df)
     y_pred = model.predict(df)
     y_pred = pd.Series(y_pred)
     y_pred = y_pred.apply(lambda x: 1 if x == -1 else 0)
     return y_pred
-    
+
 
 def get_threats(y_pred, logs):
-    li=[]
+    li = []
     if sum(y_pred) > 0:
         # print("Malicious logs are:")
         for i in range(len(y_pred)):
@@ -1177,30 +1173,30 @@ def load_classifier(model):
 
 def classify(model, df, indices):
     df = pd.DataFrame([df.iloc[index] for index in indices])
-    cols = ['dstintfrole','proto','srcintfrole','srcintf','dstintf']
+    cols = ["dstintfrole", "proto", "srcintfrole", "srcintf", "dstintf"]
     for col in cols:
         if col in df.columns:
             df = df.drop(col, axis=1)
     li = model.predict(df)
     return li
 
+
 def report(df):
     df = list(pd.Series(df).value_counts())
     for count in df:
-        print(f'Level {int(df[count])+1} threats: {count}')
-
+        print(f"Level {int(df[count])+1} threats: {count}")
 
 
 if __name__ == "__main__":
-    file_path = 'log.txt'
+    file_path = "log.txt"
     lines = read_lines(file_path, 5000)
     df1 = pd.DataFrame([parse_log(log) for log in lines])
     df2 = clean_data(df1)
-    binclf = load_model('raksha_v3.0.pkl')
+    binclf = load_model("raksha_v3.0.pkl")
     pred = detect(binclf, df2)
-    mltclf = load_classifier('raksha_ultra_xlf.pkl')
+    mltclf = load_classifier("raksha_ultra_xlf.pkl")
     indices = get_threats(pred, lines)
     df = classify(mltclf, df2, indices)
     report(df)
-    print(f'pickle v{pickle.format_version}')
-    print(f'scikit-learn v{sklearn.__version__}')
+    print(f"pickle v{pickle.format_version}")
+    print(f"scikit-learn v{sklearn.__version__}")
