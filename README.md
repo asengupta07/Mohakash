@@ -35,6 +35,7 @@ We have planned to deal with each threat level differently.
 - Trained a binary classification model to classify threats from clean logs with 92% accuracy. An Isolation forest model was used for this anomaly detection task.
 - Trained the secondary multi-class classification model to classify priority of threats in three levels with almost cent percent accuracy. The model is a voting classifier ensembled with random forest, xboost and lightbgm.
 - Created visual dashboards and reports on the data to give important insights.
+- Analysed the server log dataset to visualise server traffic and traffic patterns in the interactive dashboard.
 - Deployed the model that accepts data of multiple logs in given textual format, preprocesses it and runs the predictions for all the logs at once.
 
 ## What we plan to do next
