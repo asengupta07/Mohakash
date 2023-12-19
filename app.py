@@ -26,10 +26,10 @@ if st.button("Run"):
         pred = pl.detect(binclf, df)
         mltclf = pl.load_classifier("raksha_ultra_xlf.pkl")
         indices = pl.get_threats(pred, lines)
-        st.write("Detected {} threats out of {} logs.".format(sum(pred), len(lines)))
         if indices == []:
             st.write("No threats detected.")
         else:
+            st.write("Detected {} threats out of {} logs.".format(sum(pred), len(lines)))
             df = pl.classify(mltclf, df, indices)
             threat = pd.DataFrame(data=df + 1, columns=["threat_level"])
             df = dict(pd.Series(df).value_counts())
@@ -45,12 +45,15 @@ if st.button("Run"):
             l2 = og[og["threat_level"] == 2]
             l1 = og[og["threat_level"] == 1]
             st.dataframe(og)
-            st.subheader("Level 3 Threats:")
-            st.dataframe(l3)
-            st.subheader("Level 2 Threats:")
-            st.dataframe(l2)
-            st.subheader("Level 1 Threats:")
-            st.dataframe(l1)
+            if not l3.empty:
+                st.subheader("Level 3 Threats:")
+                st.dataframe(l3)
+            if not l2.empty:
+                st.subheader("Level 2 Threats:")
+                st.dataframe(l2)
+            if not l1.empty:
+                st.subheader("Level 1 Threats:")
+                st.dataframe(l1)
 
 
 st.header("Input Examples")
