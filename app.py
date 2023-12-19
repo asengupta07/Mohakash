@@ -37,7 +37,8 @@ if st.button("Run"):
             og = pd.concat([og, threat], axis=1)
             for key in df.keys():
                 st.write(f"Level {key+1} threats: {df[key]}")
-            st.subheader("Threat Report:")
+            st.header("Threat Report")
+            st.subheader("Threats Found:")
             og[""] = range(1, len(og) + 1)
             og.set_index("", inplace=True)
             l3 = og[og["threat_level"] == 3]
