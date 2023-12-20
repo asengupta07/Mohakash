@@ -2,7 +2,7 @@
 
 <h1 align="center"> AI-powered application to safeguard Bhuvan Portal </h1>
 
-<img src="https://github.com/asengupta07/Mohakash/blob/main/assets/bhuvanrksha.gif" width=100% alt="gif">
+<img src="assets/bhuvanrksha.gif?raw=true" width=100% alt="gif">
 
 <div align="center">
 Detects, Reports and Protects  Bhuvan from threats.
