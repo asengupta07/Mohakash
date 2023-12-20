@@ -47,8 +47,8 @@ We have planned to deal with each threat level differently.
 
 ## The team
 
-Aishi Mukhopadhyay
-Arnab Sengupta
-Akash Kundu
-Pradyumna Bhowmick
+- Aishi Mukhopadhyay
+- Arnab Sengupta
+- Akash Kundu
+- Pradyumna Bhowmick
 
