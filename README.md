@@ -24,6 +24,9 @@ BhuvanRKSHA is an application that helps keep the Bhuvan website safe by monitor
 - Secondary model: Classifies threat  into priority level 1, 2 and 3. 
 
 Our Primary Model distinguishes clean logs from suspicious logs with **92%** accuracy. It is important to note that zero suspicious logs are misclassified as clean. All of the errors are clean logs misclassified as threats  which is where the model behaves extra cautious to not let any suspicious log pass undetected.
+
+<p align="center"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/3cca17dc-0f51-4d04-941e-325e75127b16"></p>
+
 All the predicted threats are passed into our Secondary Model and are then classified into priority levels 1 (mild suspicion), 2 (warning) and 3 (attack) which we have defined based on distinguishable differences between anomalous features. Our model classifies the threat levels with 99+% accuracy as there are noticeable differences between each level. 
 We have planned to deal with each threat level differently.
 
