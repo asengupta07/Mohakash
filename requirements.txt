@@ -5,5 +5,4 @@ pandas
 scikit_learn
 streamlit
 xgboost
-plotly.express
 plotly
