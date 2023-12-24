@@ -3,10 +3,12 @@ import streamlit as st
 import pandas as pd
 from plotly import express as px
 import geopandas as gpd
+import math
 
 
 st.set_page_config(page_title="BhuvanRKSHA", page_icon=":shield:")
-st.markdown( """
+st.markdown(
+    """
             <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/xolonium" type="text/css">
             <style>
                 .st-emotion-cache-10trblm {
@@ -16,12 +18,17 @@ st.markdown( """
                     text-align: center;
                 }
             </style>
-            """ , unsafe_allow_html= True)
+            """,
+    unsafe_allow_html=True,
+)
 
 st.title("BhuvanRKSHA")
 
 
-st.markdown("<div style='text-align: center;'><h5>A tool to detect threats in log files.</h5></div>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='text-align: center;'><h5>A tool to detect threats in log files.</h5></div>",
+    unsafe_allow_html=True,
+)
 
 st.header("Log Threat Detection")
 
@@ -29,10 +36,15 @@ file = st.file_uploader("Upload Log File:", type=["txt"])
 
 st.subheader("OR")
 
-logs = st.text_area("Enter Log Data:", height=200, value="", placeholder="""Paste logs here.
+logs = st.text_area(
+    "Enter Log Data:",
+    height=200,
+    value="",
+    placeholder="""Paste logs here.
 Example:
 2023-10-31T06:03:06.283735+05:30 172.26.5.193 logver=506141727 timestamp=1698708792 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:03:12 logid="0000000013"...
-                    """)
+                    """,
+)
 if file is not None:
     logs = file.read().decode("utf-8")
 
@@ -45,21 +57,27 @@ if st.button("Run"):
     else:
         df = pd.DataFrame(pl.parse_log(log) for log in lines)
         og = df.copy()
-        opog = df.copy()
+        og = og[~og["dstintfrole"].isna()]
+        opog = og.copy()
         df = df.drop(["srcip"], axis=1)
         df = pl.clean_data(df)
-        binclf = pl.load_model("raksha_v3.0.pkl")
-        pred = pl.detect(binclf, df)
-        mltclf = pl.load_classifier("raksha_ultra_xlf.pkl")
+        bindf = df.drop(["srcintf", "srcintfrole", "dstintf"], axis=1)
+        df = df.drop(["sentpkt"], axis=1)
+        binclf = pl.load_model("models/raksha_v4_0.pkl")
+        pred = pl.detect("models/scaler_v2.pkl",binclf, bindf)
+        mltclf = pl.load_classifier("models/raksha_ultra_xlf.pkl")
         indices = pl.get_threats(pred, lines)
         if indices == []:
             st.write("No threats detected.")
         else:
-            st.write("Detected {} threats out of {} logs.".format(sum(pred), len(lines)))
+            st.write(
+                "Detected {} threats out of {} logs.".format(sum(pred), len(lines))
+            )
             df = pl.classify(mltclf, df, indices)
             threat = pd.DataFrame(data=df + 1, columns=["threat_level"])
             df = dict(pd.Series(df).value_counts())
-            og = pd.DataFrame([dict(og.iloc[index]) for index in indices])
+            og = pd.DataFrame([og.iloc[index] for index in indices])
+            og = og.reset_index(drop=True)
             og = pd.concat([og, threat], axis=1)
             for key in df.keys():
                 st.write(f"Level {key+1} threats: {df[key]}")
@@ -84,23 +102,50 @@ if st.button("Run"):
             st.header("Data Visualization")
             st.subheader("Threat Level Distribution")
             col1, col2 = st.columns(2)
-            names = list(pd.DataFrame(og['threat_level'].value_counts()).index)
+            names = list(pd.DataFrame(og["threat_level"].value_counts()).index)
             names = ["Level " + str(i) for i in names]
-            data = pd.DataFrame(og['threat_level'].value_counts()).transpose()
+            data = pd.DataFrame(og["threat_level"].value_counts()).transpose()
             og["threat"] = og["threat_level"].apply(lambda x: "Level " + str(x))
-            col1.bar_chart(pd.Series(og["threat"]).value_counts(), color=["#FF0000", "#FFA500", "#FFFF00"][:(3-len(names))])
-            fig = px.pie(values=og["threat_level"].value_counts(), names=names, height=400, width=400)
+            if len(lines)> 100:
+                col1.bar_chart(
+                    pd.Series(og["threat"]).value_counts().apply(lambda x: math.log(x)),
+                )
+            else:
+                col1.bar_chart(
+                    pd.Series(og["threat"]).value_counts(),
+                )
+            fig = px.pie(
+                values=og["threat_level"].value_counts(),
+                names=names,
+                height=400,
+                width=400,
+            )
             col2.plotly_chart(fig)
             st.subheader("Threat Level Distribution by Country")
             opog.srccountry.dropna(inplace=True)
-            country_counts = opog['srccountry'].value_counts().reset_index()
-            country_counts.columns = ['country', 'count']
-            print(country_counts)
+            country_counts = opog["srccountry"].value_counts().reset_index()
+            country_counts.columns = ["country", "count"]
             world = px.data.gapminder().query("year==2007")
-            world = world.merge(country_counts, on='country', how='left').fillna(0)
-            fig = px.choropleth(world, locations="country", locationmode="country names", color="count", hover_name="country", color_continuous_scale='Reds')
-            fig.update_geos(resolution=110, showcoastlines=True, coastlinecolor="black", showland=True, landcolor="black", showocean=True, oceancolor="lightblue", showlakes=True, lakecolor="white")
-            # fig.select_legends(font_family='sans-serif')
+            world = world.merge(country_counts, on="country", how="left").fillna(0)
+            fig = px.choropleth(
+                world,
+                locations="country",
+                locationmode="country names",
+                color="count",
+                hover_name="country",
+                color_continuous_scale="Reds",
+            )
+            fig.update_geos(
+                resolution=110,
+                showcoastlines=True,
+                coastlinecolor="black",
+                showland=True,
+                landcolor="black",
+                showocean=True,
+                oceancolor="lightblue",
+                showlakes=True,
+                lakecolor="white",
+            )
             st.plotly_chart(fig)
 
 else:
