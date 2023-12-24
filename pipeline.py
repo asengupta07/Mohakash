@@ -1061,7 +1061,15 @@ map = {
     ],
 }
 
-dtype_f64 = ["proto", "policyid", "duration", "sentbyte", "rcvdbyte", "crscore"]
+dtype_f64 = [
+    "proto",
+    "policyid",
+    "duration",
+    "sentbyte",
+    "rcvdbyte",
+    "crscore",
+    "sentpkt",
+]
 
 
 def parse_log(log):
@@ -1069,6 +1077,7 @@ def parse_log(log):
 
     log_fields = [
         "srcip",
+        "sentpkt",
         "type",
         "subtype",
         "level",
@@ -1103,8 +1112,9 @@ def parse_log(log):
 
 def clean_data(df):
     df.crscore.fillna(0, inplace=True)
-    df = df[~df.srcintf.isna()]
     df.srccountry.fillna("Unknown", inplace=True)
+    df = df[~df.dstintfrole.isna()]
+    df.sentpkt.fillna(4, inplace=True)
     df.duration.fillna(0, inplace=True)
     df.sentbyte.fillna(0, inplace=True)
     df.rcvdbyte.fillna(0, inplace=True)
@@ -1115,6 +1125,7 @@ def clean_data(df):
     for col in cols:
         li = map[col]
         df[col] = df[col].apply(lambda x: li.index(x) if x in li else len(li))
+    df = df.reset_index(drop=True)
     return df
 
 
@@ -1144,8 +1155,8 @@ def load_model(model_name):
     return model
 
 
-def detect(model, df):
-    with open("scaler.pkl", "rb") as file:
+def detect(scale, model, df):
+    with open(scale, "rb") as file:
         scaler = pickle.load(file)
     df = scaler.transform(df)
     y_pred = model.predict(df)
@@ -1173,6 +1184,7 @@ def load_classifier(model):
 
 def classify(model, df, indices):
     df = pd.DataFrame([df.iloc[index] for index in indices])
+    df = df.reset_index(drop=True)
     cols = ["dstintfrole", "proto", "srcintfrole", "srcintf", "dstintf"]
     for col in cols:
         if col in df.columns:
@@ -1192,7 +1204,7 @@ if __name__ == "__main__":
     lines = read_lines(file_path, 5000)
     df1 = pd.DataFrame([parse_log(log) for log in lines])
     df2 = clean_data(df1)
-    binclf = load_model("raksha_v3.0.pkl")
+    binclf = load_model("raksha_v4_0.pkl")
     pred = detect(binclf, df2)
     mltclf = load_classifier("raksha_ultra_xlf.pkl")
     indices = get_threats(pred, lines)
