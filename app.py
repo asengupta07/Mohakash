@@ -2,7 +2,6 @@ import pipeline as pl
 import streamlit as st
 import pandas as pd
 from plotly import express as px
-import geopandas as gpd
 import math
 
 
@@ -63,8 +62,8 @@ if st.button("Run"):
         df = pl.clean_data(df)
         bindf = df.drop(["srcintf", "srcintfrole", "dstintf"], axis=1)
         df = df.drop(["sentpkt"], axis=1)
-        binclf = pl.load_model("./models/raksha_v4_0.pkl")
-        pred = pl.detect("./models/scaler_v2.pkl",binclf, bindf)
+        binclf = pl.load_model("./models/raksha_v5_2.pkl")
+        pred = pl.detect("./models/scaler_v3.pkl", binclf, bindf)
         mltclf = pl.load_classifier("./models/raksha_ultra_xlf.pkl")
         indices = pl.get_threats(pred, lines)
         if indices == []:
@@ -106,7 +105,7 @@ if st.button("Run"):
             names = ["Level " + str(i) for i in names]
             data = pd.DataFrame(og["threat_level"].value_counts()).transpose()
             og["threat"] = og["threat_level"].apply(lambda x: "Level " + str(x))
-            if len(lines)> 100:
+            if len(lines) > 100:
                 col1.bar_chart(
                     pd.Series(og["threat"]).value_counts().apply(lambda x: math.log(x)),
                 )
