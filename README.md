@@ -1,11 +1,11 @@
 **![](https://lh7-us.googleusercontent.com/cOsH7-Dh0nQaTbUkWHKOMA2-vu9L7rX8ZokdfVdqxbYmX32MuwiBf8chC6R8LLuexmKBgJL9dIIm0g2yEf1d_dA5VV8qGGL0vvzYf_rwDD7M0UdiHiZ35xVu9vJwsRWjSy3-DLQGXtR1YCMdn3ORDQ)**
 
-<h1 align="center"> AI-powered application to safeguard Bhuvan Portal </h1>
+<h1 align="center"> AI-powered Application to Safeguard Bhuvan Portal </h1>
 
 <img src="assets/demo.gif?raw=true" width=100% alt="gif">
 
 <div align="center">
-Detects, Reports and Protects  Bhuvan from threats.
+Detects, Reports and Protects Bhuvan from Threats.
 </div>
 
   <p align="center">
@@ -34,7 +34,7 @@ We have planned to deal with each threat level differently.
 - Level 2: Bhuvan Security team is notified about the threat.
 - Level 1: All the detected threats (along with level 2 and level 3) over a certain period of time (weekly/biweekly/monthly) are sent to the security team of Bhuvan to inspect.
 
-## What we have done till now
+## What We Have Done Till Now
 
 <img align="right" src="https://github.com/asengupta07/Mohakash/assets/136733971/7de09503-4769-4910-a2b0-208575becb21" width="450px">
 
@@ -50,14 +50,14 @@ We have planned to deal with each threat level differently.
 <p align="center"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/ae4cd3f9-3536-4e9c-be51-0801ccd8b1b3" width="400px"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/cdf510a9-3938-49cc-ac99-e3086bd47ab6" width="400px"></p>
 
 
-## What we plan to do next
+## What We Plan To Do Next
 
 - Take dynamic data from Bhuvan and implement the pipeline into production.
 - Add a real-time notification system based on threat level after running the dynamic firewall logs collected from Bhuvan's server logfile through the pipeline.
 - Make the dashboards dynamic with the live data to give interactive daily, weekly, and monthly insights.
 - Monitor the performance of our models and retrain to improve it with more data to get more robust models.
 
-## The team
+## The Team
 
 - Aishi Mukhopadhyay
 - Arnab Sengupta
