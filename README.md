@@ -36,6 +36,10 @@ We have planned to deal with each threat level differently.
 
 ## What we have done till now
 
+<img align="right" src="https://github.com/asengupta07/Mohakash/assets/136733971/7de09503-4769-4910-a2b0-208575becb21" width="450px">
+
+- Carried out exploratory data analysis and feature engineering on the raw data to figure out features that can be utilised to detect threats in the given logs.
+- Minimised the number of features required to detect threats to best optimise the model using correlation analysis.
 - Created a pipeline to convert the textual logs to clean trainable data with necessary important features.
 - Trained a binary classification model to classify threats from clean logs with almost 95% accuracy. An Isolation forest model was used for this anomaly detection task.
 - Trained the secondary multi-class classification model to classify priority of threats in three levels with almost cent percent accuracy. The model is a voting classifier ensembled with random forest, xboost and lightbgm.
