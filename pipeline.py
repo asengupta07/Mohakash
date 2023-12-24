@@ -1114,7 +1114,8 @@ def clean_data(df):
     df.crscore.fillna(0, inplace=True)
     df.srccountry.fillna("Unknown", inplace=True)
     df = df[~df.dstintfrole.isna()]
-    df.sentpkt.fillna(4, inplace=True)
+    df.sentpkt = df.sentpkt.apply(lambda x: float(x) + 1)
+    df.sentpkt.fillna(0, inplace=True)
     df.duration.fillna(0, inplace=True)
     df.sentbyte.fillna(0, inplace=True)
     df.rcvdbyte.fillna(0, inplace=True)
