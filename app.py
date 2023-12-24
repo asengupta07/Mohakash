@@ -63,9 +63,9 @@ if st.button("Run"):
         df = pl.clean_data(df)
         bindf = df.drop(["srcintf", "srcintfrole", "dstintf"], axis=1)
         df = df.drop(["sentpkt"], axis=1)
-        binclf = pl.load_model("models/raksha_v4_0.pkl")
-        pred = pl.detect("models/scaler_v2.pkl",binclf, bindf)
-        mltclf = pl.load_classifier("models/raksha_ultra_xlf.pkl")
+        binclf = pl.load_model("./models/raksha_v4_0.pkl")
+        pred = pl.detect("./models/scaler_v2.pkl",binclf, bindf)
+        mltclf = pl.load_classifier("./models/raksha_ultra_xlf.pkl")
         indices = pl.get_threats(pred, lines)
         if indices == []:
             st.write("No threats detected.")
