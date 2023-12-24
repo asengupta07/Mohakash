@@ -37,7 +37,7 @@ We have planned to deal with each threat level differently.
 ## What we have done till now
 
 - Created a pipeline to convert the textual logs to clean trainable data with necessary important features.
-- Trained a binary classification model to classify threats from clean logs with 94.8% accuracy. An Isolation forest model was used for this anomaly detection task.
+- Trained a binary classification model to classify threats from clean logs with almost 95% accuracy. An Isolation forest model was used for this anomaly detection task.
 - Trained the secondary multi-class classification model to classify priority of threats in three levels with almost cent percent accuracy. The model is a voting classifier ensembled with random forest, xboost and lightbgm.
 - Created visual dashboards and reports on the data to give important insights.
 - Analysed the server log dataset to visualise server traffic and traffic patterns in the interactive dashboard.
