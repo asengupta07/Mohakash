@@ -45,7 +45,7 @@ We have planned to deal with each threat level differently.
 - Trained the secondary multi-class classification model to classify priority of threats in three levels with almost cent percent accuracy. The model is a voting classifier ensembled with random forest, xboost and lightbgm.
 - Created visual dashboards and reports on the data to give important insights.
 - Analysed the server log dataset to visualise server traffic and traffic patterns in the interactive dashboard.
-- Deployed the model that accepts multiple log data as either textual input or a file (upto 200 MB) corresponding to actual Bhuvan website's firewall log data file, preprocesses it and runs the predictions for all the logs at once. An interactive dashboard is also generated for better visualisation of the data.
+- Deployed the model that accepts multiple log data as either textual input or a file (upto 200 MB) corresponding to actual Bhuvan website's firewall log data file, preprocesses it and runs the predictions for all the logs at once. An interactive dashboard is also dynamically generated for better visualisation of the data.
 
 <p align="center"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/ae4cd3f9-3536-4e9c-be51-0801ccd8b1b3" width="400px"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/cdf510a9-3938-49cc-ac99-e3086bd47ab6" width="400px"></p>
 
