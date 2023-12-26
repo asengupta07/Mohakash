@@ -1123,9 +1123,12 @@ def clean_data(df):
     df.type = df.type.apply(lambda x: 1 if x == "utm" else 0)
     df[dtype_f64] = df[dtype_f64].astype("float64")
     cols = df.select_dtypes(include="object").columns.tolist()
+    if df.empty:
+        return df
     for col in cols:
         li = map[col]
         df[col] = df[col].apply(lambda x: li.index(x) if x in li else len(li))
+    df.fillna(0, inplace=True)
     df = df.reset_index(drop=True)
     return df
 
