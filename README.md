@@ -69,4 +69,9 @@ We have planned to deal with each threat level differently.
 If you would like to share a feedback on the project, we would love to hear what you have to say. You can let us know how you feel through this [form](https://docs.google.com/forms/d/e/1FAIpQLScSe96ibyrVIUTZ3_8rIVUeGGQ9MWPAoD7wSBMyvQPbjM8kkg/viewform?usp=sharing).
 
 
-**P.S:** We have added a demo gif in our readme, which unfortunately does not render on some devices. If you cannot see the demo of BhuvanRKSHA here, please open this [link](https://media.discordapp.net/attachments/1170293654896787498/1188532198735880293/demo.gif?ex=659addde&is=658868de&hm=549c62d3b7b8fd381fed4d6c72599ea4677f7ca9ea9aa5ec739a22302ed58733&=&width=1150&height=510), to view the 15 second demo. To test the deployed project yourself, check out our [streamlit app](https://bhuvanrksha.streamlit.app).
+## Side Notes
+- We have added a demo gif in our readme, which unfortunately does not render on some devices. If you cannot see the demo of BhuvanRKSHA here, please open this [link](https://media.discordapp.net/attachments/1170293654896787498/1188532198735880293/demo.gif?ex=659addde&is=658868de&hm=549c62d3b7b8fd381fed4d6c72599ea4677f7ca9ea9aa5ec739a22302ed58733&=&width=1150&height=510), to view the 15 second demo.
+- To test the deployed project yourself, check out our [streamlit app](https://bhuvanrksha.streamlit.app).
+- The Power BI dashboard provides organisational access only, which unfortunately means we cannot directly share the interactive dashboard. Here's the [link](https://drive.google.com/file/d/1u_PdeBvD75QqVugrICKTCcPLS-CvdwJh/view?usp=sharing) to the static pdf version of the dashboard, the interactive version of which looks something like [this](https://clipchamp.com/watch/eaGPkU97vWd).
+
+<p align="center"><img src="https://github.com/asengupta07/Mohakash/assets/136733971/34d385a2-f293-4ea5-8c65-69ce9a2a268a"></p>
