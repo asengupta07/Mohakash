@@ -62,90 +62,94 @@ if st.button("Run"):
         df = pl.clean_data(df)
         bindf = df.drop(["srcintf", "srcintfrole", "dstintf"], axis=1)
         df = df.drop(["sentpkt"], axis=1)
-        binclf = pl.load_model("./models/raksha_v5_2.pkl")
-        pred = pl.detect("./models/scaler_v3.pkl", binclf, bindf)
-        mltclf = pl.load_classifier("./models/raksha_ultra_xlf.pkl")
-        indices = pl.get_threats(pred, lines)
-        if indices == []:
-            st.write("No threats detected.")
+        if df.empty:
+            st.write("No valid logs detected.")
+            st.write("Please check if you have entered a complete or valid log and try again.")
         else:
-            st.write(
-                "Detected {} threats out of {} logs.".format(sum(pred), len(lines))
-            )
-            df = pl.classify(mltclf, df, indices)
-            threat = pd.DataFrame(data=df + 1, columns=["threat_level"])
-            df = dict(pd.Series(df).value_counts())
-            og = pd.DataFrame([og.iloc[index] for index in indices])
-            og = og.reset_index(drop=True)
-            og = pd.concat([og, threat], axis=1)
-            for key in df.keys():
-                st.write(f"Level {key+1} threats: {df[key]}")
-            st.header("Threat Report")
-            st.subheader("Threats Found:")
-            og[""] = range(1, len(og) + 1)
-            og.set_index("", inplace=True)
-            l3 = og[og["threat_level"] == 3]
-            l2 = og[og["threat_level"] == 2]
-            l1 = og[og["threat_level"] == 1]
-            st.dataframe(og)
-            if not l3.empty:
-                st.subheader("Level 3 Threats:")
-                st.dataframe(l3)
-            if not l2.empty:
-                st.subheader("Level 2 Threats:")
-                st.dataframe(l2)
-            if not l1.empty:
-                st.subheader("Level 1 Threats:")
-                st.dataframe(l1)
-
-            st.header("Data Visualization")
-            st.subheader("Threat Level Distribution")
-            col1, col2 = st.columns(2)
-            names = list(pd.DataFrame(og["threat_level"].value_counts()).index)
-            names = ["Level " + str(i) for i in names]
-            data = pd.DataFrame(og["threat_level"].value_counts()).transpose()
-            og["threat"] = og["threat_level"].apply(lambda x: "Level " + str(x))
-            if len(lines) > 100:
-                col1.bar_chart(
-                    pd.Series(og["threat"]).value_counts().apply(lambda x: math.log(x)),
-                )
+            binclf = pl.load_model("./models/raksha_v5_2.pkl")
+            pred = pl.detect("./models/scaler_v3.pkl", binclf, bindf)
+            mltclf = pl.load_classifier("./models/raksha_ultra_xlf.pkl")
+            indices = pl.get_threats(pred, lines)
+            if indices == []:
+                st.write("No threats detected.")
             else:
-                col1.bar_chart(
-                    pd.Series(og["threat"]).value_counts(),
+                st.write(
+                    "Detected {} threats out of {} logs.".format(sum(pred), len(lines))
                 )
-            fig = px.pie(
-                values=og["threat_level"].value_counts(),
-                names=names,
-                height=400,
-                width=400,
-            )
-            col2.plotly_chart(fig)
-            st.subheader("Threat Level Distribution by Country")
-            opog.srccountry.dropna(inplace=True)
-            country_counts = opog["srccountry"].value_counts().reset_index()
-            country_counts.columns = ["country", "count"]
-            world = px.data.gapminder().query("year==2007")
-            world = world.merge(country_counts, on="country", how="left").fillna(0)
-            fig = px.choropleth(
-                world,
-                locations="country",
-                locationmode="country names",
-                color="count",
-                hover_name="country",
-                color_continuous_scale="Reds",
-            )
-            fig.update_geos(
-                resolution=110,
-                showcoastlines=True,
-                coastlinecolor="black",
-                showland=True,
-                landcolor="black",
-                showocean=True,
-                oceancolor="lightblue",
-                showlakes=True,
-                lakecolor="white",
-            )
-            st.plotly_chart(fig)
+                df = pl.classify(mltclf, df, indices)
+                threat = pd.DataFrame(data=df + 1, columns=["threat_level"])
+                df = dict(pd.Series(df).value_counts())
+                og = pd.DataFrame([og.iloc[index] for index in indices])
+                og = og.reset_index(drop=True)
+                og = pd.concat([og, threat], axis=1)
+                for key in df.keys():
+                    st.write(f"Level {key+1} threats: {df[key]}")
+                st.header("Threat Report")
+                st.subheader("Threats Found:")
+                og[""] = range(1, len(og) + 1)
+                og.set_index("", inplace=True)
+                l3 = og[og["threat_level"] == 3]
+                l2 = og[og["threat_level"] == 2]
+                l1 = og[og["threat_level"] == 1]
+                st.dataframe(og)
+                if not l3.empty:
+                    st.subheader("Level 3 Threats:")
+                    st.dataframe(l3)
+                if not l2.empty:
+                    st.subheader("Level 2 Threats:")
+                    st.dataframe(l2)
+                if not l1.empty:
+                    st.subheader("Level 1 Threats:")
+                    st.dataframe(l1)
+
+                st.header("Data Visualization")
+                st.subheader("Threat Level Distribution")
+                col1, col2 = st.columns(2)
+                names = list(pd.DataFrame(og["threat_level"].value_counts()).index)
+                names = ["Level " + str(i) for i in names]
+                data = pd.DataFrame(og["threat_level"].value_counts()).transpose()
+                og["threat"] = og["threat_level"].apply(lambda x: "Level " + str(x))
+                if len(lines) > 100:
+                    col1.bar_chart(
+                        pd.Series(og["threat"]).value_counts().apply(lambda x: math.log(x)),
+                    )
+                else:
+                    col1.bar_chart(
+                        pd.Series(og["threat"]).value_counts(),
+                    )
+                fig = px.pie(
+                    values=og["threat_level"].value_counts(),
+                    names=names,
+                    height=400,
+                    width=400,
+                )
+                col2.plotly_chart(fig)
+                st.subheader("Threat Level Distribution by Country")
+                opog.srccountry.dropna(inplace=True)
+                country_counts = opog["srccountry"].value_counts().reset_index()
+                country_counts.columns = ["country", "count"]
+                world = px.data.gapminder().query("year==2007")
+                world = world.merge(country_counts, on="country", how="left").fillna(0)
+                fig = px.choropleth(
+                    world,
+                    locations="country",
+                    locationmode="country names",
+                    color="count",
+                    hover_name="country",
+                    color_continuous_scale="Reds",
+                )
+                fig.update_geos(
+                    resolution=110,
+                    showcoastlines=True,
+                    coastlinecolor="black",
+                    showland=True,
+                    landcolor="black",
+                    showocean=True,
+                    oceancolor="lightblue",
+                    showlakes=True,
+                    lakecolor="white",
+                )
+                st.plotly_chart(fig)
 
 else:
     st.header("Input Examples")
