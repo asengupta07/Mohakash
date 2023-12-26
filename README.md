@@ -12,7 +12,7 @@ Detects, Reports and Protects Bhuvan from Threats.
   <br/>
     <a href="https://mohakash.streamlit.app"> Streamlit App</a>
     ·
-  <a href="https://app.powerbi.com/reportEmbed?reportId=14ca9c92-f434-4cbc-98cd-d43e683a7e94&autoAuth=true&ctid=23a21599-83e3-45ed-9e32-d7441e300908">Dashboard</a>
+  <a href="https://drive.google.com/file/d/1u_PdeBvD75QqVugrICKTCcPLS-CvdwJh/view?usp=sharing">Dashboard</a>
     ·
     <a href="https://github.com/asengupta07/Mohakash">Github</a>
   </p>
