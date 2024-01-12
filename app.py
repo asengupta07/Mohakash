@@ -3,7 +3,22 @@ import streamlit as st
 import pandas as pd
 from plotly import express as px
 import math
+import pyperclip
 
+
+test_log = """
+2023-10-31T06:03:06.283735+05:30 172.26.5.193 logver=506141727 timestamp=1698708792 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:03:12 logid="0000000013" type="traffic" subtype="forward" level="notice" eventtime=1698708792 srcip=49.35.192.81 srcport=40584 srcintf="LLB- Connect" srcintfrole="wan" dstip=172.26.2.51 dstport=443 dstintf="Local_LAN" dstintfrole="undefined" poluuid="3367bf4c-74ff-51e8-3e96-72b0684b3e81" sessionid=1943981213 proto=6 action="timeout" policyid=49 policytype="policy" service="HTTPS" dstcountry="Reserved" srccountry="India" trandisp="noop" duration=25 sentbyte=120 rcvdbyte=320 sentpkt=2 rcvdpkt=5 appcat="unscanned" crscore=5 craction=262144 crlevel="low"
+
+2023-10-31T06:03:06.283735+05:30 172.26.5.193 logver=506141727 timestamp=1698708788 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:03:08 logid="0000000013" type="traffic" subtype="forward" level="notice" eventtime=1698708788 srcip=49.35.192.81 srcport=40570 srcintf="LLB- Connect" srcintfrole="wan" dstip=172.26.2.51 dstport=443 dstintf="Local_LAN" dstintfrole="undefined" poluuid="3367bf4c-74ff-51e8-3e96-72b0684b3e81" sessionid=1943981076 proto=6 action="timeout" policyid=49 policytype="policy" service="HTTPS" dstcountry="Reserved" srccountry="India" trandisp="noop" duration=25 sentbyte=60 rcvdbyte=320 sentpkt=1 rcvdpkt=5 appcat="unscanned" crscore=5 craction=262144 crlevel="low"
+
+2023-10-31T11:02:35.405983+05:30 172.26.5.193 logver=506141727 timestamp=1698709211 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:10:11 logid="0000000013" type="traffic" subtype="forward" level="notice" eventtime=1698709211 srcip=23.22.35.162 srcport=17191 srcintf="LLB- Connect" srcintfrole="wan" dstip=172.26.2.66 dstport=443 dstintf="Local_LAN" dstintfrole="undefined" poluuid="eed00e84-e899-51e8-8443-676ac9d33e22" sessionid=1943996156 proto=6 action="client-rst" policyid=67 policytype="policy" service="HTTPS" dstcountry="Reserved" srccountry="United States" trandisp="noop" duration=6 sentbyte=216 rcvdbyte=248 sentpkt=4 appcat="unscanned"
+
+2023-10-31T03:25:39.092502+05:30 172.26.5.193 logver=506141727 timestamp=1698702933 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=03:25:33 logid="0419016384" type="utm" subtype="ips" eventtype="signature" level="alert" eventtime=1698702933 severity="critical" srcip=164.52.0.93 srccountry="Japan" dstip=172.26.2.62 srcintf="LLB- Connect" srcintfrole="wan" dstintf="Local_LAN" dstintfrole="undefined" sessionid=1943784658 action="dropped" proto=6 service="HTTPS" policyid=39 attack="Gh0st.Rat.Botnet" srcport=56067 dstport=443 direction="outgoing" attackid=38503 profile="default" ref="http://www.fortinet.com/ids/VID38503" incidentserialno=1802804642 msg="backdoor: Gh0st.Rat.Botnet," crscore=50 crlevel="critical"
+
+2023-10-31T05:17:00.945220+05:30 172.26.5.193 logver=506141727 timestamp=1698708601 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=05:00:01 logid="0000000011" type="traffic" subtype="forward" level="warning" eventtime=1698708601 srcip=170.80.110.49 srcintf="LLB- Connect" srcintfrole="wan" dstip=172.26.2.51 dstintf="Local_LAN" dstintfrole="undefined" poluuid="3367bf4c-74ff-51e8-3e96-72b0684b3e81" sessionid=1943972760 proto=1 action="ip-conn" policyid=49 policytype="policy" service="icmp/0/8" appcat="unscanned" crscore=5 craction=262144 crlevel="low"
+
+2023-10-31T05:09:43.880561+05:30 172.26.5.193 logver=506141727 timestamp=1698708407 tz="UTC+5:30" devname="FGT3600C_HA" devid="FG3K6C3A15800081" vd="root" date=2023-10-31 time=04:56:47 logid="0000000011" type="traffic" subtype="forward" level="warning" eventtime=1698708407 srcip=185.81.113.89 srcintf="LLB- Connect" srcintfrole="wan" dstip=172.26.2.51 dstintf="Local_LAN" dstintfrole="undefined" poluuid="3367bf4c-74ff-51e8-3e96-72b0684b3e81" sessionid=1943966208 proto=1 action="ip-conn" policyid=49 policytype="policy" service="icmp/0/8" appcat="unscanned" crscore=5 craction=262144 crlevel="low"
+"""
 
 st.set_page_config(page_title="BhuvanRKSHA", page_icon=":shield:")
 st.markdown(
@@ -153,6 +168,9 @@ if st.button("Run"):
 
 else:
     st.header("Input Examples")
+    if st.button("Copy Random Examples", use_container_width=True):
+        pyperclip.copy(test_log)
+        st.write("Examples copied to clipboard!")
     st.write(
         "Copy and paste the following examples into the text area above to see how the tool works. You are welcome to mix and match any of the examples below or use your own logs to test the tool."
     )
