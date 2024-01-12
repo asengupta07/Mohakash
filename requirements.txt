@@ -6,3 +6,4 @@ scikit_learn
 streamlit
 xgboost
 plotly
+pyperclip
