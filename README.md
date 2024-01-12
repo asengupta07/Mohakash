@@ -10,7 +10,7 @@ Detects, Reports and Protects Bhuvan from Threats.
 
   <p align="center">
   <br/>
-    <a href="https://mohakash.streamlit.app"> Streamlit App</a>
+    <a href="https://bhuvanrksha.streamlit.app"> Streamlit App</a>
     ·
   <a href="https://drive.google.com/file/d/1u_PdeBvD75QqVugrICKTCcPLS-CvdwJh/view?usp=sharing">Dashboard</a>
     ·
