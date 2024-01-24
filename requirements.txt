@@ -2,8 +2,7 @@ geopandas
 lightgbm
 numpy
 pandas
-scikit_learn
+scikit_learn==1.3.2
 streamlit
 xgboost
 plotly
-pyperclip
